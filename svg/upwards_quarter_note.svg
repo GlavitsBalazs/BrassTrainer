@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="8.7312527mm"
+   height="25.663986mm"
+   viewBox="0 0 8.7312527 25.663986"
+   version="1.1"
+   id="svg5749"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="upwards_quarter_note.svg">
+  <defs
+     id="defs5743" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="27.657203"
+     inkscape:cy="65.424939"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5746">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="1. réteg"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-65.949303,-188.53133)">
+    <g
+       id="g6308"
+       transform="matrix(1.0026083,0,0,0.99997842,-0.17201456,3.4442019)">
+      <polyline
+         transform="matrix(0.26458333,0,0,0.25568924,-37.884574,46.442004)"
+         style="fill:none;stroke:#000000;stroke-width:3.25;stroke-linecap:round;stroke-linejoin:bevel"
+         id="polyline42"
+         points="423.732,637.037 423.732,557.357"
+         class="Stem" />
+      <path
+         style="stroke-width:0.26458332"
+         inkscape:connector-curvature="0"
+         id="path50"
+         d="m 71.761933,206.91108 c 0.826823,0 1.525587,0.21484 2.096029,0.64479 0.531813,0.46593 0.797719,1.05145 0.797719,1.75709 0,1.18772 -0.610394,2.29844 -1.831181,3.33217 -1.240367,1.03346 -2.567517,1.55019 -3.981186,1.55019 -0.826823,0 -1.524264,-0.21511 -2.09206,-0.64505 -0.534458,-0.46567 -0.801952,-1.05146 -0.801952,-1.75684 0,-1.18798 0.620183,-2.2987 1.860285,-3.33216 1.207294,-1.03346 2.524654,-1.55019 3.952346,-1.55019"
+         class="Note" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,7 @@
+staff: 2px thick lines with 25px gaps, ledger lines are 52px wide
+G clef: 63*179px, placed 61px below the line
+F clef: 67*77px, placed 50px below the line
+upwards quarter note: 33*97px, placed 13px below the line
+downwards quarter note: 33*97px, placed (97-15)px below the line
+sharp: 75px tall, 27.5px wide, 25px wide in signature, 33px wide before notes, placed 36px below the line
+flat: 63px tall, 23px wide, 25px wide in signature, 29px wide before notes, placed 15px below the line
