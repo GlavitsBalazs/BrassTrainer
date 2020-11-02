@@ -1,14 +1,17 @@
-package hu.glavits.brasstrainer
+package hu.glavits.brasstrainer.typesetting
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
+import hu.glavits.brasstrainer.R
 import hu.glavits.brasstrainer.R.dimen.*
+import java.lang.Integer.max
+import java.lang.Integer.min
+import kotlin.math.abs
 import kotlin.math.truncate
 
 class StaffView : View {
@@ -57,46 +60,69 @@ class StaffView : View {
         invalidateStaff()
     }
 
+    //val symbols = listOf(
+    //    GClef(),
+    //    Sharp(4),
+    //    Sharp(1),
+    //    Sharp(5),
+    //    Sharp(2),
+    //    Sharp(-1),
+    //    Sharp(3),
+    //    Sharp(0),
+    //    QuarterNote(-3)
+    //)
+
+   //val symbols = listOf(
+   //    GClef(),
+   //    Flat(0),
+   //    Flat(3),
+   //    Flat(-1),
+   //    Flat(2),
+   //    Flat(-2),
+   //    Flat(1),
+   //    Flat(-3),
+   //    QuarterNote(-3)
+   //)
+
+    val symbols = listOf(
+        GClef(),
+        Flat(-3),
+        QuarterNote(-3)
+    )
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         staff.drawLines(canvas)
-        staff.drawLedgerLines(canvas, 8, 280.0F)
-        drawSymbol(FClef(2), canvas, 10)
-    }
-
-    fun drawSymbol(s: Symbol, canvas: Canvas, x: Int) {
-        val drawable: Drawable? = ResourcesCompat.getDrawable(resources, s.drawable, null)
-        drawable?.let {
-            val vo = scale * resources.getDimension(s.verticalOffset)
-            val y = (staff.notePosition(s.notePosition) + vo).toInt()
-            it.setBounds(
-                x, y,
-                x + (scale * drawable.intrinsicWidth).toInt(),
-                y + (scale * drawable.intrinsicHeight).toInt()
-            )
-            it.draw(canvas)
+        var x = scale * resources.getDimension(staff_beginning_margin)
+        for (s in symbols) {
+            x += scale * resources.getDimension(s.leftMargin)
+            if (s is QuarterNote) {
+                staff.drawLedgerLines(canvas, s.notePosition, x)
+            }
+            val drawable = ResourcesCompat.getDrawable(resources, s.drawable, null)
+            drawable?.let {
+                val vo = scale * resources.getDimension(s.verticalOffset)
+                val y = staff.notePosition(s.notePosition) + vo
+                it.setBounds(
+                    x.toInt(), y.toInt(),
+                    (x + scale * drawable.intrinsicWidth).toInt(),
+                    (y + scale * drawable.intrinsicHeight).toInt()
+                )
+                it.draw(canvas)
+                x += scale * drawable.intrinsicWidth
+            }
+            x += scale * resources.getDimension(s.rightMargin)
         }
-    }
-
-    abstract class Symbol(val notePosition: Int) {
-        abstract val drawable: Int
-        abstract val verticalOffset: Int
-        abstract val leftMargin: Int
-        abstract val rightMargin: Int
-    }
-
-    class FClef(notePosition: Int) : Symbol(notePosition) {
-        override val drawable: Int = R.drawable.ic_f_clef
-        override val verticalOffset: Int = f_clef_vertical_offset
-        override val leftMargin: Int = dimen_zero
-        override val rightMargin: Int = dimen_zero
     }
 
     inner class Staff(scale: Float, private val zeroPosition: Float) {
         private val lineCount = 5
         private val paint = Paint()
         private val spacing = scale * resources.getDimension(staff_spacing)
-        private val ledger = scale * resources.getDimension(ledger_line_width)
+        private val ledgerLeft =
+            scale * (resources.getDimension(staff_ledger_line_width) - resources.getDimension(symbol_note_width)) / 2.0F
+        private val ledgerRight =
+            scale * (resources.getDimension(staff_ledger_line_width) + resources.getDimension(symbol_note_width)) / 2.0F
 
         init {
             paint.color = Color.BLACK
@@ -105,7 +131,7 @@ class StaffView : View {
         }
 
         private fun linePosition(lineIndex: Float): Float {
-            return zeroPosition + lineIndex * (spacing)  //+ paint.strokeWidth)
+            return zeroPosition + lineIndex * spacing
         }
 
         fun notePosition(noteIndex: Int): Float {
@@ -121,9 +147,12 @@ class StaffView : View {
 
         fun drawLedgerLines(canvas: Canvas, noteIndex: Int, x: Float) {
             val lineIndex = truncate(-noteIndex / 2.0F).toInt()
-            for (i in lineIndex until (if (lineIndex < 0) -1 else 1) * lineCount / 2) {
+            var extraLine = (lineCount / 2 + 1)
+            if (abs(lineIndex) < extraLine) return
+            extraLine *= (if (lineIndex < 0) -1 else 1)
+            for (i in min(lineIndex, extraLine)..max(lineIndex, extraLine)) {
                 val y = linePosition(i.toFloat())
-                canvas.drawLine(x - ledger / 2.0F, y, x + ledger / 2.0F, y, paint)
+                canvas.drawLine(x - ledgerLeft, y, x + ledgerRight, y, paint)
             }
         }
     }

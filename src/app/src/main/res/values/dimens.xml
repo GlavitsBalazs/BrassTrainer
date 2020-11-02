@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="dimen_zero">0</dimen>
+    <dimen name="dimen_zero">0dp</dimen>
+
     <dimen name="staff_stroke_width">2dp</dimen>
     <dimen name="staff_spacing">25dp</dimen>
-    <dimen name="ledger_line_width">52dp</dimen>
-    <dimen name="f_clef_vertical_offset">-26dp</dimen>
+    <dimen name="staff_ledger_line_width">52dp</dimen>
+    <dimen name="staff_beginning_margin">18dp</dimen>
+
+    <dimen name="symbol_f_clef_vertical_offset">-26dp</dimen>
+    <dimen name="symbol_f_clef_margin">5dp</dimen>
+
+    <dimen name="symbol_g_clef_vertical_offset">-117dp</dimen>
+    <dimen name="symbol_g_clef_margin">5dp</dimen>
+
+    <dimen name="symbol_sharp_vertical_offset">-38dp</dimen>
+    <dimen name="symbol_sharp_margin">-2.5dp</dimen>
+
+    <dimen name="symbol_flat_vertical_offset">-47dp</dimen>
+    <dimen name="symbol_flat_margin">2dp</dimen>
+
+    <dimen name="symbol_upwards_quarter_note_vertical_offset">-83dp</dimen>
+    <dimen name="symbol_downwards_quarter_note_vertical_offset">-14dp</dimen>
+    <dimen name="symbol_note_width">33dp</dimen>
+    <dimen name="symbol_note_right_margin">7dp</dimen>
+    <dimen name="symbol_note_left_margin">18dp</dimen>
 </resources>
