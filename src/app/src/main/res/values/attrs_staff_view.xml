@@ -1,5 +1,5 @@
 <resources>
     <declare-styleable name="StaffView">
-        <attr name="scale" format="dimension" />
+        <attr name="scale" format="float"/>
     </declare-styleable>
 </resources>

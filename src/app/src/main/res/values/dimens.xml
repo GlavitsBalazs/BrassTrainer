@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dimen_zero">0</dimen>
+    <dimen name="staff_stroke_width">2dp</dimen>
+    <dimen name="staff_spacing">25dp</dimen>
+    <dimen name="ledger_line_width">52dp</dimen>
+    <dimen name="f_clef_vertical_offset">-26dp</dimen>
+</resources>
