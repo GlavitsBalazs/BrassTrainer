@@ -22,16 +22,28 @@ class GClef(notePosition: Int = -2) : Symbol(notePosition) {
     override val rightMargin: Int = R.dimen.symbol_g_clef_margin
 }
 
-class Sharp(notePosition: Int) : Symbol(notePosition) {
+class SharpSignature(notePosition: Int) : Symbol(notePosition) {
     override val drawable: Int = R.drawable.symbol_sharp
     override val verticalOffset: Int = R.dimen.symbol_sharp_vertical_offset
-    override val rightMargin: Int = R.dimen.symbol_sharp_margin
+    override val rightMargin: Int = R.dimen.symbol_sharp_signature_margin
 }
 
-class Flat(notePosition: Int) : Symbol(notePosition) {
+class FlatSignature(notePosition: Int) : Symbol(notePosition) {
     override val drawable: Int = R.drawable.symbol_flat
     override val verticalOffset: Int = R.dimen.symbol_flat_vertical_offset
-    override val rightMargin: Int = R.dimen.symbol_flat_margin
+    override val rightMargin: Int = R.dimen.symbol_flat_accidental_margin
+}
+
+class SharpAccidental(notePosition: Int) : Symbol(notePosition) {
+    override val drawable: Int = R.drawable.symbol_sharp
+    override val verticalOffset: Int = R.dimen.symbol_sharp_vertical_offset
+    override val rightMargin: Int = R.dimen.symbol_sharp_signature_margin
+}
+
+class FlatAccidental(notePosition: Int) : Symbol(notePosition) {
+    override val drawable: Int = R.drawable.symbol_flat
+    override val verticalOffset: Int = R.dimen.symbol_flat_vertical_offset
+    override val rightMargin: Int = R.dimen.symbol_flat_accidental_margin
 }
 
 class QuarterNote(notePosition: Int) : Symbol(notePosition) {

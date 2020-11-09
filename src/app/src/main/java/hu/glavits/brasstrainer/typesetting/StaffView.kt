@@ -14,6 +14,7 @@ import java.lang.Integer.min
 import kotlin.math.abs
 import kotlin.math.truncate
 
+
 class StaffView : View {
 
     constructor(context: Context) : super(context) {
@@ -60,33 +61,8 @@ class StaffView : View {
         invalidateStaff()
     }
 
-    //val symbols = listOf(
-    //    GClef(),
-    //    Sharp(4),
-    //    Sharp(1),
-    //    Sharp(5),
-    //    Sharp(2),
-    //    Sharp(-1),
-    //    Sharp(3),
-    //    Sharp(0),
-    //    QuarterNote(-3)
-    //)
-
-   //val symbols = listOf(
-   //    GClef(),
-   //    Flat(0),
-   //    Flat(3),
-   //    Flat(-1),
-   //    Flat(2),
-   //    Flat(-2),
-   //    Flat(1),
-   //    Flat(-3),
-   //    QuarterNote(-3)
-   //)
-
     val symbols = listOf(
         GClef(),
-        Flat(-3),
         QuarterNote(-3)
     )
 
@@ -115,14 +91,21 @@ class StaffView : View {
         }
     }
 
+    /**
+     * @param zeroPosition The horizontal positions of the middle line, in View coordinates.
+     */
     inner class Staff(scale: Float, private val zeroPosition: Float) {
         private val lineCount = 5
         private val paint = Paint()
         private val spacing = scale * resources.getDimension(staff_spacing)
         private val ledgerLeft =
-            scale * (resources.getDimension(staff_ledger_line_width) - resources.getDimension(symbol_note_width)) / 2.0F
+            scale * (resources.getDimension(staff_ledger_line_width) - resources.getDimension(
+                symbol_note_width
+            )) / 2.0F
         private val ledgerRight =
-            scale * (resources.getDimension(staff_ledger_line_width) + resources.getDimension(symbol_note_width)) / 2.0F
+            scale * (resources.getDimension(staff_ledger_line_width) + resources.getDimension(
+                symbol_note_width
+            )) / 2.0F
 
         init {
             paint.color = Color.BLACK
@@ -130,10 +113,16 @@ class StaffView : View {
             paint.strokeWidth = scale * resources.getDimension(staff_stroke_width)
         }
 
+        /**
+         * The graphical position of the specified line.
+         */
         private fun linePosition(lineIndex: Float): Float {
             return zeroPosition + lineIndex * spacing
         }
 
+        /**
+         * The graphical position of the specified note.
+         */
         fun notePosition(noteIndex: Int): Float {
             return linePosition(-noteIndex / 2.0F)
         }
