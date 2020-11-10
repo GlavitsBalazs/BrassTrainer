@@ -27,8 +27,7 @@ class Pitch {
 
     val accidental: Accidental
         get() = ACCIDENTALS_IN_OCTAVE[frequency % NOTES_PER_OCTAVE]
-
-
+    
     companion object {
         const val MIDI_C0 = 24
         const val NOTES_PER_OCTAVE = 12
