@@ -8,22 +8,40 @@
     <dimen name="staff_beginning_margin">18dp</dimen>
 
     <dimen name="symbol_f_clef_vertical_offset">-26dp</dimen>
-    <dimen name="symbol_f_clef_margin">5dp</dimen>
+    <dimen name="symbol_f_clef_margin">18dp</dimen>
 
     <dimen name="symbol_g_clef_vertical_offset">-117dp</dimen>
-    <dimen name="symbol_g_clef_margin">5dp</dimen>
+    <dimen name="symbol_g_clef_margin">18dp</dimen>
+
+    <dimen name="symbol_c_clef_vertical_offset">-50dp</dimen>
+    <dimen name="symbol_c_clef_margin">18dp</dimen>
 
     <dimen name="symbol_sharp_vertical_offset">-38dp</dimen>
     <dimen name="symbol_sharp_signature_margin">-2.5dp</dimen>
-    <dimen name="symbol_sharp_accidental_margin">-2.5dp</dimen>
+    <dimen name="symbol_sharp_accidental_margin">0dp</dimen>
+    <dimen name="symbol_sharp_accidental_left_margin">0dp</dimen>
 
     <dimen name="symbol_flat_vertical_offset">-47dp</dimen>
     <dimen name="symbol_flat_signature_margin">2dp</dimen>
-    <dimen name="symbol_flat_accidental_margin">2dp</dimen>
+    <dimen name="symbol_flat_accidental_margin">-22dp</dimen>
+    <dimen name="symbol_flat_accidental_left_margin">25dp</dimen>
+
+    <dimen name="symbol_natural_vertical_offset">-38dp</dimen>
+    <dimen name="symbol_natural_margin">-22dp</dimen>
+    <dimen name="symbol_natural_left_margin">25dp</dimen>
+
+    <dimen name="symbol_double_sharp_vertical_offset">-12.5dp</dimen>
+    <dimen name="symbol_double_sharp_margin">-22dp</dimen>
+    <dimen name="symbol_double_sharp_left_margin">25dp</dimen>
+
+    <dimen name="symbol_double_flat_vertical_offset">-47dp</dimen>
+    <dimen name="symbol_double_flat_margin">-22dp</dimen>
+    <dimen name="symbol_double_flat_left_margin">25dp</dimen>
 
     <dimen name="symbol_upwards_quarter_note_vertical_offset">-83dp</dimen>
     <dimen name="symbol_downwards_quarter_note_vertical_offset">-14dp</dimen>
+
     <dimen name="symbol_note_width">33dp</dimen>
-    <dimen name="symbol_note_right_margin">7dp</dimen>
-    <dimen name="symbol_note_left_margin">18dp</dimen>
+    <dimen name="symbol_note_right_margin">5dp</dimen>
+    <dimen name="symbol_note_left_margin">30dp</dimen>
 </resources>

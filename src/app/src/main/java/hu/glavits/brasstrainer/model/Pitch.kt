@@ -1,22 +1,22 @@
 package hu.glavits.brasstrainer.model
 
+/**
+ * The frequency of a musical tone.
+ */
 class Pitch {
     /**
      * The frequency of this pitch, encoded according to the
      * https://en.wikipedia.org/wiki/MIDI_tuning_standard
      */
-    var frequency = 0
+    var frequency: Int = 0
 
     constructor(frequency: Int) {
         this.frequency = frequency
     }
 
-    constructor(staffConfiguration: StaffConfiguration) {
-        val note = staffConfiguration.note
-        val effectiveAccidental = staffConfiguration.accidental
-            ?: staffConfiguration.keySignature.getAccidental(note)
-        frequency =
-            MIDI_C0 + NOTES_PER_OCTAVE * note.octave + note.name.offset + effectiveAccidental.offset
+    constructor(note: Note, accidental: Accidental? = null) {
+        val pitchClass = note.name.offset + (accidental?.offset ?: 0)
+        frequency = MIDI_C0 + NOTES_PER_OCTAVE * note.octave + pitchClass
     }
 
     val note: Note
@@ -27,7 +27,7 @@ class Pitch {
 
     val accidental: Accidental
         get() = ACCIDENTALS_IN_OCTAVE[frequency % NOTES_PER_OCTAVE]
-    
+
     companion object {
         const val MIDI_C0 = 24
         const val NOTES_PER_OCTAVE = 12

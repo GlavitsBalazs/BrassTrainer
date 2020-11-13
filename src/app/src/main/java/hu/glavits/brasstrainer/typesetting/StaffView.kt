@@ -9,14 +9,16 @@ import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import hu.glavits.brasstrainer.R
 import hu.glavits.brasstrainer.R.dimen.*
+import hu.glavits.brasstrainer.model.*
 import java.lang.Integer.max
 import java.lang.Integer.min
 import kotlin.math.abs
 import kotlin.math.truncate
 
-
+/**
+ * This view renders musical notation.
+ */
 class StaffView : View {
-
     constructor(context: Context) : super(context) {
         init(null, 0)
     }
@@ -25,27 +27,10 @@ class StaffView : View {
         init(attrs, 0)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
-        context,
-        attrs,
-        defStyle
-    ) {
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int)
+            : super(context, attrs, defStyle) {
         init(attrs, defStyle)
     }
-
-    private var _scale: Float = 1f
-    var scale: Float
-        get() = _scale
-        set(value) {
-            _scale = value
-            invalidateStaff()
-        }
-
-    private fun invalidateStaff() {
-        staff = Staff(_scale, height / 2.0F)
-    }
-
-    private lateinit var staff: Staff
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         val a = context.obtainStyledAttributes(
@@ -56,29 +41,62 @@ class StaffView : View {
         invalidateStaff()
     }
 
+    /**
+     * Graphical scaling factor.
+     */
+    private var _scale: Float = 1f
+    var scale: Float
+        get() = _scale
+        set(value) {
+            _scale = value
+            invalidateStaff()
+        }
+
+    /**
+     * The configuration determines the symbols that get drawn.
+     */
+    private var _configuration: StaffConfiguration? = StaffConfiguration(
+        Clef.BASS_CLEF,
+        Note(NoteName.F, 3)
+    )
+    var configuration: StaffConfiguration?
+        get() = _configuration
+        set(value) {
+            _configuration = value
+            invalidateStaff()
+        }
+
+    private var symbols: List<Symbol>? = null
+    private lateinit var staff: Staff
+
+    private fun invalidateStaff() {
+        staff = Staff(_scale, height / 2.0F)
+        symbols = _configuration?.produceSymbols()
+        invalidate()
+    }
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         invalidateStaff()
     }
 
-    val symbols = listOf(
-        GClef(),
-        QuarterNote(-3)
-    )
-
+    /**
+     * Draw the staff and draw the symbols.
+     */
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         staff.drawLines(canvas)
         var x = scale * resources.getDimension(staff_beginning_margin)
-        for (s in symbols) {
+        if (symbols == null) return
+        for (s in symbols!!) {
             x += scale * resources.getDimension(s.leftMargin)
             if (s is QuarterNote) {
-                staff.drawLedgerLines(canvas, s.notePosition, x)
+                staff.drawLedgerLines(canvas, s.noteIndex, x)
             }
             val drawable = ResourcesCompat.getDrawable(resources, s.drawable, null)
             drawable?.let {
                 val vo = scale * resources.getDimension(s.verticalOffset)
-                val y = staff.notePosition(s.notePosition) + vo
+                val y = staff.notePosition(s.noteIndex) + vo
                 it.setBounds(
                     x.toInt(), y.toInt(),
                     (x + scale * drawable.intrinsicWidth).toInt(),
@@ -92,6 +110,7 @@ class StaffView : View {
     }
 
     /**
+     * This object draws the staff lines and keeps track of the vertical graphical positions of notes.
      * @param zeroPosition The horizontal positions of the middle line, in View coordinates.
      */
     inner class Staff(scale: Float, private val zeroPosition: Float) {
@@ -114,14 +133,16 @@ class StaffView : View {
         }
 
         /**
-         * The graphical position of the specified line.
+         * The vertical graphical position of the specified line.
          */
         private fun linePosition(lineIndex: Float): Float {
             return zeroPosition + lineIndex * spacing
         }
 
         /**
-         * The graphical position of the specified note.
+         * The vertical graphical position of the specified note.
+         * Each line and each gap in the staff has a note index.
+         * The middle line has index 0, positive indices are above and negative ones are below.
          */
         fun notePosition(noteIndex: Int): Float {
             return linePosition(-noteIndex / 2.0F)
@@ -134,6 +155,9 @@ class StaffView : View {
             }
         }
 
+        /**
+         * Note indices outside the staff require ledger lines.
+         */
         fun drawLedgerLines(canvas: Canvas, noteIndex: Int, x: Float) {
             val lineIndex = truncate(-noteIndex / 2.0F).toInt()
             var extraLine = (lineCount / 2 + 1)
