@@ -1,10 +1,30 @@
 package hu.glavits.brasstrainer.typesetting
 
-import hu.glavits.brasstrainer.model.Accidental
-import hu.glavits.brasstrainer.model.Clef
-import hu.glavits.brasstrainer.model.KeySignature
-import hu.glavits.brasstrainer.model.Note
-import kotlin.math.abs
+import hu.glavits.brasstrainer.model.*
+
+/**
+ * @param symbol The clef symbol.
+ * @param middleNote The note of the middle line, as set by the clef.
+ * @param sharpOctaves The octaves where the key signature sharps are displayed.
+ * @param flatOctaves The octaves where the key signature flats are displayed.
+ */
+enum class Clef(
+    val symbol: Symbol, val middleNote: Note,
+    val sharpOctaves: List<Int>, val flatOctaves: List<Int>
+) {
+    TREBLE_CLEF(
+        GClef(-2), Note(NoteName.B, Octaves(4)),
+        listOf(5, 5, 5, 5, 4, 5, 4), listOf(4, 5, 4, 5, 4, 5, 4)
+    ),
+    BASS_CLEF(
+        FClef(2), Note(NoteName.D, Octaves(3)),
+        listOf(3, 3, 3, 3, 2, 3, 2), listOf(2, 3, 2, 3, 2, 3, 2)
+    ),
+    TENOR_CLEF(
+        CClef(2), Note(NoteName.A, Octaves(3)),
+        listOf(3, 4, 3, 4, 3, 4, 3), listOf(3, 4, 3, 4, 3, 4, 3)
+    ),
+}
 
 /**
  * This class represents the information required to uniquely specify a pitch in musical notation.
@@ -28,7 +48,7 @@ class StaffConfiguration(
         val result = ArrayList<Symbol>()
         result.add(clef.symbol)
         result.addAll(getKeySignatureSymbols())
-        val noteIndex = note - clef.middleNote
+        val noteIndex = indexOfNote(note)
         accidental?.let {
             result.add(getAccidentalSymbol(it, noteIndex))
         }
@@ -36,15 +56,23 @@ class StaffConfiguration(
         return result
     }
 
+    /**
+     * The number of degrees in the C major scale that separate the given note and the
+     * note that represents the middle line in the staff as set by the clef
+     * equals the noteIndex at which the given note should be displayed in the staff.
+     * @see StaffView.Staff.notePosition
+     * @see Note.minus(rhs: Note)
+     */
+    private fun indexOfNote(note: Note): Int = (note - clef.middleNote).degrees
+
     private fun getKeySignatureSymbols() = sequence {
-        val notes = if (keySignature.accidentals > 0)
-            KeySignature.SHARP_NOTES else KeySignature.FLAT_NOTES
-        val octaves = if (keySignature.accidentals > 0) clef.sharpOctaves else clef.flatOctaves
-        for (i in 0 until abs(keySignature.accidentals)) {
-            val sigNote = Note(notes[i], octaves[i])
-            val noteIndex = sigNote - clef.middleNote
+        val noteNames = keySignature.shiftedNoteNames
+        val octaves = if (keySignature.sharpOrFlat) clef.sharpOctaves else clef.flatOctaves
+        for (i in noteNames.indices) {
+            val sigNote = Note(noteNames[i], Octaves(octaves[i]))
+            val noteIndex = indexOfNote(sigNote)
             yield(
-                if (keySignature.accidentals > 0) SharpSignature(noteIndex)
+                if (keySignature.sharpOrFlat) SharpSignature(noteIndex)
                 else FlatSignature(noteIndex)
             )
         }

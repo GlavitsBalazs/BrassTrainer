@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/trumpet_key_1"
+        android:layout_width="@dimen/key_size"
+        android:layout_height="@dimen/key_size"
+        android:text="1" />
+
+    <Button
+        android:id="@+id/trumpet_key_2"
+        android:layout_width="@dimen/key_size"
+        android:layout_height="@dimen/key_size"
+        android:text="2" />
+
+    <Button
+        android:id="@+id/trumpet_key_3"
+        android:layout_width="@dimen/key_size"
+        android:layout_height="@dimen/key_size"
+        android:text="3" />
+
+    <Button
+        android:id="@+id/trumpet_key_4"
+        android:layout_width="@dimen/key_size"
+        android:layout_height="@dimen/key_size"
+        android:text="4" />
+</LinearLayout>

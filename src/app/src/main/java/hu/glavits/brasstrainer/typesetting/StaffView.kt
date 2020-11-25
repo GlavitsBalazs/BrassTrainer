@@ -9,7 +9,6 @@ import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import hu.glavits.brasstrainer.R
 import hu.glavits.brasstrainer.R.dimen.*
-import hu.glavits.brasstrainer.model.*
 import java.lang.Integer.max
 import java.lang.Integer.min
 import kotlin.math.abs
@@ -55,10 +54,7 @@ class StaffView : View {
     /**
      * The configuration determines the symbols that get drawn.
      */
-    private var _configuration: StaffConfiguration? = StaffConfiguration(
-        Clef.BASS_CLEF,
-        Note(NoteName.F, 3)
-    )
+    private var _configuration: StaffConfiguration? = null
     var configuration: StaffConfiguration?
         get() = _configuration
         set(value) {
