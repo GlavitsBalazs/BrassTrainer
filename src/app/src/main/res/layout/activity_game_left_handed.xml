@@ -33,9 +33,9 @@
         android:layout_marginBottom="151dp"
         android:text="@string/air"
         app:layout_constraintBottom_toTopOf="@+id/keys_holder"
-        app:layout_constraintEnd_toStartOf="@+id/staffView"
-        app:layout_constraintHorizontal_bias="0.627"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.174"
+        app:layout_constraintStart_toEndOf="@+id/staffView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
@@ -47,9 +47,9 @@
         android:layout_marginBottom="162dp"
         android:text="@string/missing"
         app:layout_constraintBottom_toTopOf="@+id/keys_holder"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.174"
-        app:layout_constraintStart_toEndOf="@+id/staffView"
+        app:layout_constraintEnd_toStartOf="@+id/staffView"
+        app:layout_constraintHorizontal_bias="0.627"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 

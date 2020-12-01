@@ -8,17 +8,16 @@ abstract class BrassInstrument {
      */
     abstract val fundamental: Pitch
 
-    abstract val valveOffsets: List<Semitones>
-    abstract val valveLabels: List<String>
-    protected abstract val lowestValveOffset: Semitones
+    abstract val valveOffsets: Array<Interval>
+    abstract val valveLabels: Array<String>
+    protected abstract val lowestValveOffset: Interval
     open val fullRange: Pair<Pitch, Pitch>
         get() = Pair(fundamental - lowestValveOffset, fundamental + HARMONIC_SERIES.last())
 
-    open val amateurRange: Pair<Pitch, Pitch>
-        get() = Pair(Pitch(0), Pitch(0))
+    abstract val amateurRange: Pair<Pitch, Pitch>
 
-    open fun possibleTones(valveOffset: Semitones) =
-        HARMONIC_SERIES.map { it + valveOffset }.toList()
+    open fun possibleTones(valveOffset: Interval) =
+        HARMONIC_SERIES.map { fundamental + it + valveOffset }.toList()
 
     companion object {
         /**
@@ -47,46 +46,52 @@ abstract class BrassInstrument {
          */
         val HARMONIC_SERIES = FULL_HARMONIC_SERIES.filterIndexed { i, _ ->
             i < HIGHEST_PARTIAL && !INHARMONIC_PARTIALS.contains(i)
-        }.map { Semitones(it) }.toList()
+        }.map { Interval(it) }.toList()
     }
 }
 
 abstract class ThreeValvedBrassInstrument : BrassInstrument() {
-    override val valveOffsets = listOf(Semitones(-2), Semitones(-1), Semitones(-3))
-    override val valveLabels: List<String> = listOf("1", "2", "3")
-    override val lowestValveOffset: Semitones = Semitones(-6)
+    override val valveOffsets = arrayOf(Interval(-2), Interval(-1), Interval(-3))
+    override val valveLabels = arrayOf("1", "2", "3")
+    override val lowestValveOffset: Interval = Interval(-6)
 }
 
 /**
- * @param compensating If true, the represented instrument contains a mechanism that
+ * @param compensating If true, the represented instrument is equipped with a mechanism that
  * mitigates the distortion of certain low notes.
  */
 abstract class FourValvedBrassInstrument(private val compensating: Boolean = true) :
     BrassInstrument() {
-    override val valveOffsets = listOf(Semitones(-2), Semitones(-1), Semitones(-3), Semitones(-5))
-    override val valveLabels: List<String> = listOf("1", "2", "3", "4")
-    override val lowestValveOffset: Semitones =
-        if (compensating) Semitones(-12) else Semitones(-11)
+    override val valveOffsets = arrayOf(Interval(-2), Interval(-1), Interval(-3), Interval(-5))
+    override val valveLabels = arrayOf("1", "2", "3", "4")
+    override val lowestValveOffset: Interval =
+        if (compensating) Interval(-12) else Interval(-11)
 
-    override fun possibleTones(valveOffset: Semitones): List<Semitones> {
+    override fun possibleTones(valveOffset: Interval): List<Pitch> {
         return super.possibleTones(
             if (!compensating && valveOffset.semitones < -7)
-                valveOffset + Semitones(1)
+                valveOffset + Interval(1)
             else valveOffset
         )
     }
 }
 
 class BFlatTrumpet : ThreeValvedBrassInstrument() {
-    override val fundamental = Pitch(46) // Bb2
+    override val fundamental = Pitch(58) // Bb2
+    override val amateurRange: Pair<Pitch, Pitch>
+        get() = Pair(Pitch(Note(NoteName.E, Octaves(3))), Pitch(Note(NoteName.C, Octaves(6))))
 }
 
 class Euphonium(compensating: Boolean = true) : FourValvedBrassInstrument(compensating) {
-    override val fundamental = Pitch(34) // Bb1
+    override val fundamental = Pitch(46) // Bb1
+    override val amateurRange: Pair<Pitch, Pitch>
+        get() = Pair(Pitch(Note(NoteName.C, Octaves(2))), Pitch(Note(NoteName.C, Octaves(5))))
 }
 
 class BFlatTuba(compensating: Boolean = true) : FourValvedBrassInstrument(compensating) {
-    override val fundamental = Pitch(22) // Bb0
+    override val fundamental = Pitch(34) // Bb0
+    override val amateurRange: Pair<Pitch, Pitch>
+        get() = Pair(Pitch(Note(NoteName.E, Octaves(1))), Pitch(Note(NoteName.C, Octaves(4))))
 }
 
 /**
@@ -95,10 +100,12 @@ class BFlatTuba(compensating: Boolean = true) : FourValvedBrassInstrument(compen
  * The thumb lever transposes the instrument to the key of B flat.
  */
 class DoubleHorn : BrassInstrument() {
-    override val fundamental = Pitch(29) //F1
-    override val valveOffsets = listOf(Semitones(-3), Semitones(-1), Semitones(-2), Semitones(5))
-    override val valveLabels: List<String> = listOf("3", "2", "1", "T")
-    override val lowestValveOffset: Semitones = Semitones(6)
+    override val fundamental = Pitch(41) // F1
+    override val valveOffsets = arrayOf(Interval(-3), Interval(-1), Interval(-2), Interval(5))
+    override val valveLabels = arrayOf("3", "2", "1", "T")
+    override val lowestValveOffset: Interval = Interval(6)
     override val fullRange: Pair<Pitch, Pitch>
         get() = Pair(super.fullRange.first, super.fullRange.second + valveOffsets[3])
+    override val amateurRange: Pair<Pitch, Pitch>
+        get() = Pair(Pitch(Note(NoteName.C, Octaves(3))), Pitch(Note(NoteName.C, Octaves(4))))
 }

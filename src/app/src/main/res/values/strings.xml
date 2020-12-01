@@ -1,5 +1,38 @@
+<!-- Accidental symbol unicode characters: ♯ ♭ ♮ -->
+
 <resources>
     <string name="app_name">Brass Trainer</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="missing">missing</string>
+    <string name="air">Air</string>
+    <string name="random">Random</string>
+
+    <string name="trumpet_in_b_flat">Trumpet in B♭</string>
+    <string name="trumpet_in_c">Trumpet in C</string>
+    <string name="euphonium_in_b_flat">Trumpet in B♭</string>
+    <string name="euphonium_in_c">Trumpet in C</string>
+    <string name="tuba_in_b_flat">Tuba in B♭</string>
+    <string name="tuba_in_c">Tuba in C</string>
+    <string name="horn_in_f">Horn in F</string>
+
+    <string name="c_flat_major">C♭ Major</string>
+    <string name="g_flat_major">G♭ Major</string>
+    <string name="d_flat_major">D♭ Major</string>
+    <string name="a_flat_major">A♭ Major</string>
+    <string name="e_flat_major">E♭ Major</string>
+    <string name="b_flat_major">B♭ Major</string>
+    <string name="f_major">F Major</string>
+    <string name="c_major">C Major</string>
+    <string name="g_major">G Major</string>
+    <string name="d_major">D Major</string>
+    <string name="a_major">A Major</string>
+    <string name="e_major">E Major</string>
+    <string name="b_major">B Major</string>
+    <string name="f_sharp_major">F♯ Major</string>
+    <string name="c_sharp_major">C♯ Major</string>
+
+    <string name="easy">Easy</string>
+    <string name="normal">Normal</string>
+    <string name="hard">Hard</string>
+
+
 </resources>

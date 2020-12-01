@@ -6,7 +6,7 @@ import kotlin.math.abs
 /**
  * The frequency of a musical tone.
  */
-class Pitch {
+class Pitch : Comparable<Pitch> {
     /**
      * The frequency of this pitch, encoded according to the
      * https://en.wikipedia.org/wiki/MIDI_tuning_standard
@@ -19,21 +19,31 @@ class Pitch {
 
     constructor(note: Note, accidental: Accidental = Accidental.NATURAL) {
         val pitchClass = note.name.pitchClass + accidental.offset
-        frequency = (MIDI_C0 + (note.octaves.semitones + pitchClass)).frequency
+        frequency = (MIDI_C0 + (note.octaves + pitchClass)).frequency
     }
+
+    // The interval from the nearest C below.
+    val pitchClass: Interval
+        get() = Interval(frequency % SEMITONES_PER_OCTAVE)
 
     val note: Note
         get() = Note(
-            NOTE_NAMES_IN_OCTAVE[frequency % SEMITONES_PER_OCTAVE],
+            NOTE_NAMES_IN_OCTAVE[pitchClass.semitones],
             Octaves(this - MIDI_C0)
         )
 
     val accidental: Accidental
-        get() = ACCIDENTALS_IN_OCTAVE[frequency % SEMITONES_PER_OCTAVE]
+        get() = ACCIDENTALS_IN_OCTAVE[pitchClass.semitones]
 
-    operator fun plus(rhs: Semitones): Pitch = Pitch(frequency + rhs.semitones)
-    operator fun minus(rhs: Semitones): Pitch = this + (-rhs)
-    operator fun minus(rhs: Pitch): Semitones = Semitones(frequency - rhs.frequency)
+    operator fun plus(rhs: Interval): Pitch = Pitch(frequency + rhs.semitones)
+    operator fun minus(rhs: Interval): Pitch = this + (-rhs)
+
+    operator fun minus(rhs: Pitch): Interval = Interval(frequency - rhs.frequency)
+
+    override operator fun compareTo(other: Pitch) = frequency.compareTo(other.frequency)
+
+    override fun equals(other: Any?): Boolean = (other is Pitch) && this.compareTo(other) == 0
+    override fun hashCode(): Int = frequency
 
     companion object {
         val MIDI_C0 = Pitch(24)
@@ -71,29 +81,41 @@ class Pitch {
 }
 
 /**
- * The smallest interval between musical frequencies. (In twelve tone equal temperament.)
+ * Find the closest note above.
  */
-class Semitones(val semitones: Int) {
-    val pitchClass: Semitones
-        get() = Semitones(semitones % SEMITONES_PER_OCTAVE)
+fun ceil(pitch: Pitch): Note {
+    return pitch.note + (if (pitch.accidental == Accidental.SHARP) Degrees(1) else Degrees(0))
+}
 
-    operator fun plus(rhs: Semitones): Semitones = Semitones(semitones + rhs.semitones)
-    operator fun minus(rhs: Semitones): Semitones = this + (-rhs)
-    operator fun unaryMinus(): Semitones = Semitones(-semitones)
+/**
+ * Find the closest note below.
+ */
+fun floor(pitch: Pitch): Note {
+    return pitch.note
+}
+
+fun ceil(note: Note, accidental: Accidental): Note = ceil(Pitch(note, accidental))
+
+fun floor(note: Note, accidental: Accidental): Note = floor(Pitch(note, accidental))
+
+/**
+ * The distance between musical frequencies expressed in terms of semitones.
+ */
+open class Interval(val semitones: Int) : Comparable<Interval> {
+    val octaves: Int
+        get() = semitones / SEMITONES_PER_OCTAVE
+
+    operator fun plus(rhs: Interval): Interval = Interval(semitones + rhs.semitones)
+    operator fun minus(rhs: Interval): Interval = this + (-rhs)
+    operator fun unaryMinus(): Interval = Interval(-semitones)
+    override operator fun compareTo(other: Interval) = semitones.compareTo(other.semitones)
 }
 
 /**
  * 12 semitones.
  */
-class Octaves(val octaves: Int) {
-    constructor(semitones: Semitones) : this(semitones.semitones / SEMITONES_PER_OCTAVE)
-
-    val semitones: Semitones
-        get() = Semitones(octaves * SEMITONES_PER_OCTAVE)
-
-    operator fun plus(rhs: Octaves): Octaves = Octaves(octaves + rhs.octaves)
-    operator fun minus(rhs: Octaves): Octaves = this + (-rhs)
-    private operator fun unaryMinus(): Octaves = Octaves(-octaves)
+class Octaves(octaves: Int) : Interval(octaves * SEMITONES_PER_OCTAVE) {
+    constructor(interval: Interval) : this(interval.semitones / SEMITONES_PER_OCTAVE)
 
     companion object {
         const val SEMITONES_PER_OCTAVE = 12
@@ -103,7 +125,7 @@ class Octaves(val octaves: Int) {
 /**
  * Represents degree in the C major scale.
  */
-class Degrees(val degrees: Int) {
+class Degrees(val degrees: Int) : Comparable<Degrees> {
     constructor(octaves: Octaves) : this(octaves.octaves * DEGREES_PER_OCTAVE)
 
     val octaves: Octaves
@@ -112,15 +134,18 @@ class Degrees(val degrees: Int) {
     val name: NoteName
         get() = C_MAJOR[degrees % DEGREES_PER_OCTAVE]
 
-    val semitones: Semitones
-        get() = octaves.semitones + name.pitchClass
+    val interval: Interval
+        get() = octaves + name.pitchClass
 
     operator fun plus(rhs: Degrees): Degrees = Degrees(degrees + rhs.degrees)
     operator fun minus(rhs: Degrees): Degrees = this + (-rhs)
     operator fun unaryMinus(): Degrees = Degrees(-degrees)
 
+    override operator fun compareTo(other: Degrees) = degrees.compareTo(other.degrees)
+
     companion object {
-        val C_MAJOR = NoteName.values()
+        val C_MAJOR
+            get() = NoteName.values()
         const val DEGREES_PER_OCTAVE = 7
     }
 }
@@ -129,14 +154,14 @@ class Degrees(val degrees: Int) {
  * @param degrees Degree in the C major scale.
  * @param pitchClass The number of semitones from C.
  */
-enum class NoteName(val degrees: Degrees, val pitchClass: Semitones) {
-    C(Degrees(0), Semitones(0)),
-    D(Degrees(1), Semitones(2)),
-    E(Degrees(2), Semitones(4)),
-    F(Degrees(3), Semitones(5)),
-    G(Degrees(4), Semitones(7)),
-    A(Degrees(5), Semitones(9)),
-    B(Degrees(6), Semitones(11));
+enum class NoteName(val degrees: Degrees, val pitchClass: Interval) {
+    C(Degrees(0), Interval(0)),
+    D(Degrees(1), Interval(2)),
+    E(Degrees(2), Interval(4)),
+    F(Degrees(3), Interval(5)),
+    G(Degrees(4), Interval(7)),
+    A(Degrees(5), Interval(9)),
+    B(Degrees(6), Interval(11));
 }
 
 /**
@@ -144,17 +169,18 @@ enum class NoteName(val degrees: Degrees, val pitchClass: Semitones) {
  *                i.e. the number of octaves from C0.
  * @see Pitch.MIDI_C0
  */
-class Note(val name: NoteName, val octaves: Octaves) {
+class Note(val name: NoteName, val octaves: Octaves) : Comparable<Note> {
     /**
      * Diatonic transposition.
      * @param rhs The number degrees in the major scale to shift by.
      */
     operator fun plus(rhs: Degrees): Note = Note(
         (name.degrees + rhs).name,
-        octaves + (name.degrees + rhs).octaves
+        Octaves(octaves + (name.degrees + rhs).octaves)
     )
 
     operator fun minus(rhs: Degrees): Note = this + (-rhs)
+
 
     /**
      * The number of degrees away from C0.
@@ -166,17 +192,20 @@ class Note(val name: NoteName, val octaves: Octaves) {
      * The number of major scale degrees separating the notes.
      */
     operator fun minus(rhs: Note): Degrees = absoluteDegrees - rhs.absoluteDegrees
+
+    override operator fun compareTo(other: Note) = absoluteDegrees.compareTo(other.absoluteDegrees)
 }
 
 /**
+ * An accidental is a symbol that modifies the pitch of notes.
  * @param offset The number of semitones by which this accidental shifts the pitch.
  */
-enum class Accidental(val offset: Semitones) {
-    DOUBLE_FLAT(Semitones(-2)),
-    FLAT(Semitones(-1)),
-    NATURAL(Semitones(0)),
-    SHARP(Semitones(1)),
-    DOUBLE_SHARP(Semitones(2)),
+enum class Accidental(val offset: Interval) {
+    DOUBLE_FLAT(Interval(-2)),
+    FLAT(Interval(-1)),
+    NATURAL(Interval(0)),
+    SHARP(Interval(1)),
+    DOUBLE_SHARP(Interval(2)),
 }
 
 /**

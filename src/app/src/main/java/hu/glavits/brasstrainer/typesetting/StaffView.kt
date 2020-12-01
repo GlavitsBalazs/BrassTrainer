@@ -58,8 +58,10 @@ class StaffView : View {
     var configuration: StaffConfiguration?
         get() = _configuration
         set(value) {
-            _configuration = value
-            invalidateStaff()
+            if (_configuration != value) {
+                _configuration = value
+                invalidateStaff()
+            }
         }
 
     private var symbols: List<Symbol>? = null
@@ -86,9 +88,8 @@ class StaffView : View {
         if (symbols == null) return
         for (s in symbols!!) {
             x += scale * resources.getDimension(s.leftMargin)
-            if (s is QuarterNote) {
+            if (s is QuarterNote)
                 staff.drawLedgerLines(canvas, s.noteIndex, x)
-            }
             val drawable = ResourcesCompat.getDrawable(resources, s.drawable, null)
             drawable?.let {
                 val vo = scale * resources.getDimension(s.verticalOffset)

@@ -41,6 +41,9 @@ class StaffConfiguration(
     constructor(clef: Clef, keySignature: KeySignature, note: Note)
             : this(clef, keySignature, null, note)
 
+    val pitch: Pitch
+        get() = Pitch(note, accidental ?: keySignature.getAccidental(note.name))
+
     /**
      * The symbols that notate this representation.
      */

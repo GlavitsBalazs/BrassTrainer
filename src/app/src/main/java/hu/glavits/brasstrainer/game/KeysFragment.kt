@@ -6,27 +6,24 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import hu.glavits.brasstrainer.BuildConfig
 import hu.glavits.brasstrainer.R
 
 class KeysFragment : Fragment() {
-    private var numKeys: Int? = null
-    private var keyValues: Array<Boolean>? = null
-    private var keyButtons: List<View>? = null
+    private lateinit var keyLabels: Array<String>
+    private lateinit var keyValues: Array<Boolean>
+    private lateinit var keyButtons: List<Button>
 
     val keys: List<Boolean>
-        get() = List(numKeys!!) { keyValues!![it] }
+        get() = keyValues.asList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            numKeys = it.getInt(NUM_KEYS)
-        }
-        if (BuildConfig.DEBUG && !(numKeys == 3 || numKeys == 4)) {
-            error("Invalid number of keys")
-        }
-        keyValues = Array(numKeys!!) { _ -> false }
+        keyLabels = arguments?.getStringArray(KEY_LABELS)!!
+        require(keyLabels.size == 3 || keyLabels.size == 4) { "Invalid number of keys" }
+        keyValues = Array(keyLabels.size) { _ -> false }
     }
 
     override fun onCreateView(
@@ -34,25 +31,24 @@ class KeysFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var layout: Int = -1
-        if (numKeys == 3) layout =
-            R.layout.fragment_three_keys
-        if (numKeys == 4) layout =
-            R.layout.fragment_four_keys
+        if (keyLabels.size == 3) layout = R.layout.fragment_three_keys
+        if (keyLabels.size == 4) layout = R.layout.fragment_four_keys
         val view = inflater.inflate(layout, container, false)
-        val fd: (Int) -> View = { view.findViewById(it) }
-        keyButtons = keyIDs.map(fd).toList()
+        val findButton: (Int) -> Button = { view.findViewById(it) }
+        keyButtons = keyIDs.subList(0, keyLabels.size).map(findButton).toList()
+        for (i in keyButtons.indices)
+            keyButtons[i].text = keyLabels[i]
         return view
-
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        for (i in 0 until numKeys!!) {
-            keyButtons?.get(i)?.setOnTouchListener { _, m ->
+        for (i in keyLabels.indices) {
+            keyButtons[i].setOnTouchListener { _, m ->
                 when (m.action) {
-                    MotionEvent.ACTION_DOWN -> keyValues?.set(i, true)
-                    MotionEvent.ACTION_UP -> keyValues?.set(i, false)
+                    MotionEvent.ACTION_DOWN -> keyValues[i] = true
+                    MotionEvent.ACTION_UP -> keyValues[i] = false
                 }
                 return@setOnTouchListener false
             }
@@ -61,19 +57,20 @@ class KeysFragment : Fragment() {
 
     companion object {
         private const val NUM_KEYS = "numKeys"
+        private const val KEY_LABELS = "keyLabels"
         private val keyIDs = listOf(
-            R.id.trumpet_key_1,
-            R.id.trumpet_key_2,
-            R.id.trumpet_key_3,
-            R.id.trumpet_key_4
+            R.id.instrument_key_1,
+            R.id.instrument_key_2,
+            R.id.instrument_key_3,
+            R.id.instrument_key_4
         )
 
         @JvmStatic
-        fun newInstance(numKeys: Int) =
+        fun newInstance(keyLabels: Array<String>) =
             KeysFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(NUM_KEYS, numKeys)
-                    put
+                    putInt(NUM_KEYS, keyLabels.size)
+                    putStringArray(KEY_LABELS, keyLabels)
                 }
             }
     }
