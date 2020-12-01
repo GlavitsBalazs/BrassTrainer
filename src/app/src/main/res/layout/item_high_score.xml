@@ -41,19 +41,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/high_score_timestamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        tools:text="2020-12-30 23:59:59" />
+        <TextView
+            android:id="@+id/high_score_timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            tools:text="2020-12-30 23:59:59" />
 
-    <TextView
-        android:id="@+id/high_score_ratio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        tools:text="1000 / 1000" />
+        <TextView
+            android:id="@+id/high_score_ratio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            tools:text="1000 / 1000" />
 
         <TextView
             android:id="@+id/high_score_value"

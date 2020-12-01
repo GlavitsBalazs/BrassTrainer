@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.item_high_score.view.*
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 
-class HighScoreAdapter : RecyclerView.Adapter<HighScoreAdapter.HighScoreViewHolder>() {
+class HighScoreAdapter() : RecyclerView.Adapter<HighScoreAdapter.HighScoreViewHolder>() {
     private val items = mutableListOf<HighScore>()
     override fun getItemCount(): Int = items.size
 
@@ -25,9 +25,9 @@ class HighScoreAdapter : RecyclerView.Adapter<HighScoreAdapter.HighScoreViewHold
         val item = items[position]
         holder.highScoreInstrument.text =
             ResourcesHelper.getInstrumentName(getEnumForOrdinal(item.instrumentSelection))
-        holder.highScoreKeySignature.text = if (item.keySignature != null)
-            ResourcesHelper.getKeySignatureName(getEnumForOrdinal(item.keySignature))
-        else ResourcesHelper.getString(R.string.random)
+        holder.highScoreKeySignature.text =
+            if (item.randomKeySignature) ResourcesHelper.getString(R.string.random)
+            else ResourcesHelper.getKeySignatureName(getEnumForOrdinal(item.keySignature))
         holder.highScoreDifficulty.text =
             ResourcesHelper.getDifficultyName(getEnumForOrdinal(item.difficultySelection))
         holder.highScoreTimestamp.text =
@@ -36,6 +36,12 @@ class HighScoreAdapter : RecyclerView.Adapter<HighScoreAdapter.HighScoreViewHold
             "${item.successCount} / ${item.successCount + item.failureCount}"
         holder.highScoreValue.text =
             item.score.toString()
+    }
+
+    fun update(table: List<HighScore>) {
+        items.clear()
+        items.addAll(table)
+        notifyDataSetChanged()
     }
 
     inner class HighScoreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

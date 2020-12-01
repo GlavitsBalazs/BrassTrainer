@@ -22,8 +22,8 @@ class Game(val config: GameConfiguration) {
             else -> ConstantKeySignature(config.keySignature)
         }
         range = when (config.difficultySelection) {
-            DifficultySelection.EASY -> instrument.amateurRange
-            DifficultySelection.NORMAL -> instrument.amateurRange
+            DifficultySelection.EASY -> instrument.noviceRange
+            DifficultySelection.NORMAL -> instrument.noviceRange
             DifficultySelection.HARD -> instrument.fullRange
         }
         accidentalGenerator = when (config.difficultySelection) {
@@ -43,6 +43,10 @@ class Game(val config: GameConfiguration) {
     fun start() {
         task = nextTask()
         // stats.start()
+    }
+
+    fun pause() {
+        stats.pause()
     }
 
     fun pressKeys(keys: List<Boolean>) {

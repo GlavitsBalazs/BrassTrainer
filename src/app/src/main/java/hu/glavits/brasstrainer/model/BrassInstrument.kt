@@ -10,12 +10,20 @@ abstract class BrassInstrument {
 
     abstract val valveOffsets: Array<Interval>
     abstract val valveLabels: Array<String>
+
     protected abstract val lowestValveOffset: Interval
     open val fullRange: Pair<Pitch, Pitch>
         get() = Pair(fundamental - lowestValveOffset, fundamental + HARMONIC_SERIES.last())
 
-    abstract val amateurRange: Pair<Pitch, Pitch>
+    /**
+     * Novice players might only be able to play these pitches.
+     */
+    abstract val noviceRange: Pair<Pitch, Pitch>
 
+    /**
+     * When valves are pressed, the instrument's harmonic series is shifted.
+     * This function returns all the possible pitches that may sound with the given valve combination.
+     */
     open fun possibleTones(valveOffset: Interval) =
         HARMONIC_SERIES.map { fundamental + it + valveOffset }.toList()
 
@@ -23,8 +31,8 @@ abstract class BrassInstrument {
         /**
          * https://en.wikipedia.org/wiki/Harmonic_series
          * This is a physical property of all brass (and many other kinds of) instruments.
-         * The values of the list represent the partials in increasing order, with each partial
-         * represented by the number of semitones between its frequency and the fundamental.
+         * The values of the list represent the partials in increasing order, with each item
+         * being by the number of semitones between its frequency and the fundamental.
          */
         private val FULL_HARMONIC_SERIES = listOf(
             0, 12, 19, 24, 28, 31, 34, 36, 38, 40, 42, 43,
@@ -39,7 +47,7 @@ abstract class BrassInstrument {
         /**
          * Though technically possible, most players are unable to play partials higher than this.
          */
-        private const val HIGHEST_PARTIAL = 11
+        private const val HIGHEST_PARTIAL = 16
 
         /**
          * Remove the inharmonic partials and the high partials.
@@ -78,19 +86,19 @@ abstract class FourValvedBrassInstrument(private val compensating: Boolean = tru
 
 class BFlatTrumpet : ThreeValvedBrassInstrument() {
     override val fundamental = Pitch(58) // Bb2
-    override val amateurRange: Pair<Pitch, Pitch>
+    override val noviceRange: Pair<Pitch, Pitch>
         get() = Pair(Pitch(Note(NoteName.E, Octaves(3))), Pitch(Note(NoteName.C, Octaves(6))))
 }
 
 class Euphonium(compensating: Boolean = true) : FourValvedBrassInstrument(compensating) {
     override val fundamental = Pitch(46) // Bb1
-    override val amateurRange: Pair<Pitch, Pitch>
+    override val noviceRange: Pair<Pitch, Pitch>
         get() = Pair(Pitch(Note(NoteName.C, Octaves(2))), Pitch(Note(NoteName.C, Octaves(5))))
 }
 
 class BFlatTuba(compensating: Boolean = true) : FourValvedBrassInstrument(compensating) {
     override val fundamental = Pitch(34) // Bb0
-    override val amateurRange: Pair<Pitch, Pitch>
+    override val noviceRange: Pair<Pitch, Pitch>
         get() = Pair(Pitch(Note(NoteName.E, Octaves(1))), Pitch(Note(NoteName.C, Octaves(4))))
 }
 
@@ -106,6 +114,6 @@ class DoubleHorn : BrassInstrument() {
     override val lowestValveOffset: Interval = Interval(6)
     override val fullRange: Pair<Pitch, Pitch>
         get() = Pair(super.fullRange.first, super.fullRange.second + valveOffsets[3])
-    override val amateurRange: Pair<Pitch, Pitch>
-        get() = Pair(Pitch(Note(NoteName.C, Octaves(3))), Pitch(Note(NoteName.C, Octaves(4))))
+    override val noviceRange: Pair<Pitch, Pitch>
+        get() = Pair(Pitch(Note(NoteName.C, Octaves(3))), Pitch(Note(NoteName.F, Octaves(5))))
 }

@@ -3,13 +3,20 @@
 <resources>
     <string name="app_name">Brass Trainer</string>
     <string name="missing">missing</string>
+
     <string name="air">Air</string>
     <string name="random">Random</string>
+    <string name="easy">Easy</string>
+    <string name="normal">Normal</string>
+    <string name="hard">Hard</string>
+    <string name="start_game">Start Game</string>
+    <string name="high_scores">High Scores</string>
+    <string name="double_back_exit_prompt">Please press BACK again to exit.</string>
 
     <string name="trumpet_in_b_flat">Trumpet in B♭</string>
     <string name="trumpet_in_c">Trumpet in C</string>
-    <string name="euphonium_in_b_flat">Trumpet in B♭</string>
-    <string name="euphonium_in_c">Trumpet in C</string>
+    <string name="euphonium_in_b_flat">Euphonium in B♭</string>
+    <string name="euphonium_in_c">Euphonium in C</string>
     <string name="tuba_in_b_flat">Tuba in B♭</string>
     <string name="tuba_in_c">Tuba in C</string>
     <string name="horn_in_f">Horn in F</string>
@@ -29,10 +36,4 @@
     <string name="b_major">B Major</string>
     <string name="f_sharp_major">F♯ Major</string>
     <string name="c_sharp_major">C♯ Major</string>
-
-    <string name="easy">Easy</string>
-    <string name="normal">Normal</string>
-    <string name="hard">Hard</string>
-
-
 </resources>
