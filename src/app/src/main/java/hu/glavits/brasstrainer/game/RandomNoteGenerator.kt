@@ -3,12 +3,15 @@ package hu.glavits.brasstrainer.game
 import hu.glavits.brasstrainer.model.*
 import kotlin.random.Random
 
-abstract class NoteGenerator {
-    abstract fun getNote(accidental: Accidental = Accidental.NATURAL): Note
-    abstract fun getNote(keySignature: KeySignature): Note
+/**
+ * A strategy to get a note for each round.
+ */
+interface NoteGenerator {
+    fun getNote(accidental: Accidental = Accidental.NATURAL): Note
+    fun getNote(keySignature: KeySignature): Note
 }
 
-class RandomNoteGenerator(private val range: Pair<Pitch, Pitch>) : NoteGenerator() {
+class RandomNoteGenerator(private val range: Pair<Pitch, Pitch>) : NoteGenerator {
 
     /**
      * Generate a random note that will fit in the range with the given accidental.

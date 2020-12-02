@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import hu.glavits.brasstrainer.BuildConfig
 import hu.glavits.brasstrainer.R
 
+/**
+ * This fragment contains the buttons that represent the instrument keys.
+ */
 class KeysFragment : Fragment() {
     private lateinit var keyLabels: Array<String>
     private lateinit var keyValues: Array<Boolean>
@@ -23,7 +25,7 @@ class KeysFragment : Fragment() {
         super.onCreate(savedInstanceState)
         keyLabels = arguments?.getStringArray(KEY_LABELS)!!
         require(keyLabels.size == 3 || keyLabels.size == 4) { "Invalid number of keys" }
-        keyValues = Array(keyLabels.size) { _ -> false }
+        keyValues = Array(keyLabels.size) { false }
     }
 
     override fun onCreateView(

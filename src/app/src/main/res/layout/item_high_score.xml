@@ -18,22 +18,19 @@
             android:id="@+id/high_score_instrument"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            tools:text="Euphoinum in B flat" />
+            android:layout_marginEnd="8dp" />
 
         <TextView
             android:id="@+id/high_score_key_signature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            tools:text="C SHARP MAJOR" />
+            android:layout_marginEnd="8dp" />
 
         <TextView
             android:id="@+id/high_score_difficulty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            tools:text="Difficult" />
+            android:layout_marginEnd="8dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -45,21 +42,21 @@
             android:id="@+id/high_score_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="8dp"
             tools:text="2020-12-30 23:59:59" />
 
         <TextView
             android:id="@+id/high_score_ratio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="8dp"
             tools:text="1000 / 1000" />
 
         <TextView
             android:id="@+id/high_score_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="8dp"
             tools:text="1000000" />
     </LinearLayout>
 

@@ -1,7 +1,6 @@
 package hu.glavits.brasstrainer.scorekeeping
 
 import android.content.Context
-import androidx.annotation.NonNull
 import androidx.room.*
 import hu.glavits.brasstrainer.game.GameConfiguration
 import hu.glavits.brasstrainer.game.GameStatistics
@@ -25,7 +24,7 @@ data class HighScore(
     ) : this(
         gameConfiguration.instrumentSelection.ordinal,
         gameConfiguration.keySignature == null,
-        gameConfiguration.keySignature?.ordinal?: 0,
+        gameConfiguration.keySignature?.ordinal ?: 0,
         gameConfiguration.difficultySelection.ordinal,
         timestamp.epochSecond,
         gameStatistics.successCount,

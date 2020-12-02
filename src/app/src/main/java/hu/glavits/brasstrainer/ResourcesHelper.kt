@@ -7,12 +7,15 @@ import hu.glavits.brasstrainer.game.InstrumentSelection
 import hu.glavits.brasstrainer.model.KeySignature
 
 object ResourcesHelper {
-    var resources: Resources? = null
+    lateinit var resources: Resources
 
-    fun getString(@StringRes id: Int) = resources!!.getString(id)
+    fun getString(@StringRes id: Int) = resources.getString(id)
+
+    fun getInstrumentName(ordinal: Int) =
+        getInstrumentName(getEnumForOrdinal<InstrumentSelection>(ordinal))
 
     fun getInstrumentName(instrumentSelection: InstrumentSelection) =
-        resources!!.getString(
+        resources.getString(
             when (instrumentSelection) {
                 InstrumentSelection.TRUMPET_B_FLAT -> R.string.trumpet_in_b_flat
                 InstrumentSelection.TRUMPET_C -> R.string.trumpet_in_c
@@ -25,8 +28,11 @@ object ResourcesHelper {
             }
         )
 
+    fun getKeySignatureName(ordinal: Int) =
+        getKeySignatureName(getEnumForOrdinal<KeySignature>(ordinal))
+
     fun getKeySignatureName(keySignature: KeySignature) =
-        resources!!.getString(
+        resources.getString(
             when (keySignature) {
                 KeySignature.C_FLAT_MAJOR -> R.string.c_flat_major
                 KeySignature.G_FLAT_MAJOR -> R.string.g_flat_major
@@ -47,8 +53,11 @@ object ResourcesHelper {
             }
         )
 
+    fun getDifficultyName(ordinal: Int) =
+        getDifficultyName(getEnumForOrdinal<DifficultySelection>(ordinal))
+
     fun getDifficultyName(difficultySelection: DifficultySelection) =
-        resources!!.getString(
+        resources.getString(
             when (difficultySelection) {
                 DifficultySelection.EASY -> R.string.easy
                 DifficultySelection.NORMAL -> R.string.normal
@@ -57,4 +66,6 @@ object ResourcesHelper {
             }
         )
 
+    private inline fun <reified E : Enum<E>> getEnumForOrdinal(ordinal: Int): E =
+        enumValues<E>()[ordinal]
 }

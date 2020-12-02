@@ -36,4 +36,7 @@
     <string name="b_major">B Major</string>
     <string name="f_sharp_major">F♯ Major</string>
     <string name="c_sharp_major">C♯ Major</string>
+    <string name="instrument_label">Instrument:</string>
+    <string name="signature_label">Key Signature:</string>
+    <string name="difficulty_label">Difficulty:</string>
 </resources>

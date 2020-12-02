@@ -5,6 +5,9 @@ import java.time.Instant
 import kotlin.math.round
 import kotlin.math.sqrt
 
+/**
+ * This class keeps the score.
+ */
 class GameStatistics {
     var successCount: Int = 0
     var failureCount: Int = 0
@@ -29,6 +32,9 @@ class GameStatistics {
         } else failureCount++
     }
 
+    /**
+     * Higher is better.
+     */
     val score: Int
         get() = if (durations.size == 0) 0 else round(
             1000000 * wilsonScore(
@@ -51,13 +57,13 @@ class GameStatistics {
          */
         private fun wilsonScore(positive: Double, negative: Double): Double {
             // covering probability = erf(sqrt(pseudoCount))
-            val pseudoCount = 1.920729410347062979180688;
-            val total = positive + negative;
-            val x = total + 2.0 * pseudoCount;
-            val mean = (positive + pseudoCount) / x;
-            val y = pseudoCount + 2.0 * (positive * negative) / total;
-            val confidence = sqrt(pseudoCount * y) / x;
-            return mean - confidence;
+            val pseudoCount = 1.920729410347062979180688
+            val total = positive + negative
+            val x = total + 2.0 * pseudoCount
+            val mean = (positive + pseudoCount) / x
+            val y = pseudoCount + 2.0 * (positive * negative) / total
+            val confidence = sqrt(pseudoCount * y) / x
+            return mean - confidence
         }
     }
 }

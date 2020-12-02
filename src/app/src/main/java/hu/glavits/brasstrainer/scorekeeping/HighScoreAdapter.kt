@@ -9,9 +9,11 @@ import hu.glavits.brasstrainer.R
 import hu.glavits.brasstrainer.ResourcesHelper
 import kotlinx.android.synthetic.main.item_high_score.view.*
 import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-class HighScoreAdapter() : RecyclerView.Adapter<HighScoreAdapter.HighScoreViewHolder>() {
+class HighScoreAdapter : RecyclerView.Adapter<HighScoreAdapter.HighScoreViewHolder>() {
     private val items = mutableListOf<HighScore>()
     override fun getItemCount(): Int = items.size
 
@@ -24,14 +26,19 @@ class HighScoreAdapter() : RecyclerView.Adapter<HighScoreAdapter.HighScoreViewHo
     override fun onBindViewHolder(holder: HighScoreViewHolder, position: Int) {
         val item = items[position]
         holder.highScoreInstrument.text =
-            ResourcesHelper.getInstrumentName(getEnumForOrdinal(item.instrumentSelection))
+            ResourcesHelper.getInstrumentName(item.instrumentSelection)
         holder.highScoreKeySignature.text =
             if (item.randomKeySignature) ResourcesHelper.getString(R.string.random)
-            else ResourcesHelper.getKeySignatureName(getEnumForOrdinal(item.keySignature))
+            else ResourcesHelper.getKeySignatureName(item.keySignature)
         holder.highScoreDifficulty.text =
-            ResourcesHelper.getDifficultyName(getEnumForOrdinal(item.difficultySelection))
+            ResourcesHelper.getDifficultyName(item.difficultySelection)
         holder.highScoreTimestamp.text =
-            DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(item.timestamp))
+            DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(
+                ZonedDateTime.ofInstant(
+                    Instant.ofEpochSecond(item.timestamp),
+                    ZoneId.systemDefault()
+                )
+            )
         holder.highScoreRatio.text =
             "${item.successCount} / ${item.successCount + item.failureCount}"
         holder.highScoreValue.text =
@@ -51,10 +58,5 @@ class HighScoreAdapter() : RecyclerView.Adapter<HighScoreAdapter.HighScoreViewHo
         val highScoreTimestamp: TextView = itemView.high_score_timestamp
         val highScoreRatio: TextView = itemView.high_score_ratio
         val highScoreValue: TextView = itemView.high_score_value
-    }
-
-    companion object {
-        private inline fun <reified E : Enum<E>> getEnumForOrdinal(ordinal: Int): E =
-            enumValues<E>()[ordinal]
     }
 }

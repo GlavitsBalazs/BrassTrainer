@@ -24,6 +24,11 @@ enum class DifficultySelection {
     HARD,
 }
 
+/**
+ * @param instrumentSelection Which instrument are we practicing? This also determines the clef and the transposition.
+ * @param keySignature Null means random key signature each round.
+ * @param difficultySelection Easy: no accidentals, Normal: random accidentals, Hard: double accidentals, extreme range
+ */
 @Parcelize
 data class GameConfiguration(
     val instrumentSelection: InstrumentSelection,

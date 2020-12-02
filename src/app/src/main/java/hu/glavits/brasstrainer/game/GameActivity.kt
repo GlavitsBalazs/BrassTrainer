@@ -21,18 +21,19 @@ class GameActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val configuration = this.intent.extras
+        val configuration = intent.extras
             ?.getParcelable<GameConfiguration>(GAME_CONFIGURATION)
         requireNotNull(configuration) { "Missing game configuration." }
+        val instrument = configuration.instrumentSelection.instrument
         game = Game(configuration)
 
         setContentView(
-            if (game.instrument is DoubleHorn) // The french horn is played with the left hand.
-                R.layout.activity_game_left_handed
+            if (instrument is DoubleHorn)
+                R.layout.activity_game_left_handed // The french horn is played with the left hand.
             else R.layout.activity_game
         )
 
-        val keysFragment = KeysFragment.newInstance(game.instrument.valveLabels)
+        val keysFragment = KeysFragment.newInstance(instrument.valveLabels)
         val trx = supportFragmentManager.beginTransaction()
         trx.add(R.id.keys_holder, keysFragment)
         trx.commit()

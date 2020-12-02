@@ -3,14 +3,17 @@ package hu.glavits.brasstrainer.game
 import hu.glavits.brasstrainer.model.*
 import hu.glavits.brasstrainer.typesetting.StaffConfiguration
 
+/**
+ * This object is the model of the game.
+ */
 class Game(val config: GameConfiguration) {
-    val instrument: BrassInstrument
-    val transposition: Interval
-    val clefSelector: ClefSelector
-    val range: Pair<Pitch, Pitch>
-    val keySignatureGenerator: KeySignatureGenerator
-    val accidentalGenerator: AccidentalGenerator
-    val noteGenerator: NoteGenerator
+    private val instrument: BrassInstrument
+    private val transposition: Interval
+    private val clefSelector: ClefSelector
+    private val range: Pair<Pitch, Pitch>
+    private val keySignatureGenerator: KeySignatureGenerator
+    private val accidentalGenerator: AccidentalGenerator
+    private val noteGenerator: NoteGenerator
     val stats: GameStatistics
 
     init {
@@ -37,12 +40,15 @@ class Game(val config: GameConfiguration) {
         stats = GameStatistics()
     }
 
+    /**
+     * This is what should be displayed to the player.
+     */
     var task: StaffConfiguration? = null
-    var lastResult: Boolean? = null
+
+    private var lastResult: Boolean? = null
 
     fun start() {
         task = nextTask()
-        // stats.start()
     }
 
     fun pause() {
@@ -74,7 +80,8 @@ class Game(val config: GameConfiguration) {
 
     private fun nextTask(): StaffConfiguration {
         val keySignature = keySignatureGenerator.getKeySignature()
-        val accidental = accidentalGenerator.getAccidental()
+        val naturalIncluded = keySignature != KeySignature.C_MAJOR
+        val accidental = accidentalGenerator.getAccidental(naturalIncluded)
         val note = if (accidental != null) noteGenerator.getNote(accidental)
         else noteGenerator.getNote(keySignature)
         val clef = clefSelector.getClef(note)
