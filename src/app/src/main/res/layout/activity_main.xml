@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    tools:ignore="ButtonStyle">
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/title_text_view"
@@ -42,7 +41,6 @@
 
             <Spinner
                 android:id="@+id/instrument_spinner"
-                style="@android:style/Widget.Spinner.DropDown"
                 android:layout_width="193dp"
                 android:layout_height="43dp"
                 android:layout_marginEnd="40dp" />
@@ -61,7 +59,6 @@
 
             <Spinner
                 android:id="@+id/signature_spinner"
-                style="@android:style/Widget.Spinner.DropDown"
                 android:layout_width="146dp"
                 android:layout_height="43dp"
                 android:layout_marginEnd="40dp" />
@@ -80,10 +77,10 @@
 
             <Spinner
                 android:id="@+id/difficulty_spinner"
-                style="@android:style/Widget.Spinner.DropDown"
                 android:layout_width="147dp"
                 android:layout_height="43dp" />
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -106,7 +103,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="100dp"
-            android:text="@string/high_scores" />
+            android:text="@string/high_scores"
+            tools:ignore="ButtonStyle" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

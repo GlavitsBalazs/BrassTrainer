@@ -28,9 +28,10 @@
 
     <Button
         android:id="@+id/button_air"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="151dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="73dp"
+        android:layout_marginBottom="162dp"
         android:text="@string/air"
         app:layout_constraintBottom_toTopOf="@+id/keys_holder"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,14 +44,11 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="73dp"
-        android:layout_marginBottom="162dp"
+        android:layout_marginTop="76dp"
         android:text="@string/missing"
-        app:layout_constraintBottom_toTopOf="@+id/keys_holder"
         app:layout_constraintEnd_toStartOf="@+id/staffView"
-        app:layout_constraintHorizontal_bias="0.627"
+        app:layout_constraintHorizontal_bias="0.575"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

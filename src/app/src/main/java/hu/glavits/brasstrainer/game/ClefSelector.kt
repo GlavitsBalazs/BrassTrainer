@@ -30,10 +30,6 @@ open class ClefCutoff(
 
 class TrebleClef : ConstantClef(Clef.TREBLE_CLEF)
 
-class BassClef : ConstantClef(Clef.BASS_CLEF)
-
-class EuphoniumClef : ClefCutoff(Note(NoteName.G, Octaves(4)), Clef.TENOR_CLEF)
-
-class TubaClef : ClefCutoff(Note(NoteName.D, Octaves(5)), Clef.TENOR_CLEF)
+class LowBrassClef : ClefCutoff(Note(NoteName.D, Octaves(5)), Clef.TENOR_CLEF)
 
 class HornClef : ClefCutoff(Note(NoteName.C, Octaves(3)), Clef.TREBLE_CLEF)

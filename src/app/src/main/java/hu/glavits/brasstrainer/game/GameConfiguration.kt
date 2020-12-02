@@ -12,9 +12,10 @@ enum class InstrumentSelection(
     TRUMPET_B_FLAT(BFlatTrumpet(), TrebleClef(), Interval(2)),
     TRUMPET_C(BFlatTrumpet(), TrebleClef(), Interval(0)),
     EUPHONIUM_B_FLAT(Euphonium(), TrebleClef(), Interval(14)),
-    EUPHONIUM_C(Euphonium(), EuphoniumClef(), Interval(0)),
-    TUBA_B_FLAT(BFlatTuba(), TrebleClef(), Interval(28)),
-    TUBA_C(BFlatTuba(), TubaClef(), Interval(0)),
+    BARITONE_B_FLAT(Euphonium(compensating = false), TrebleClef(), Interval(14)),
+    EUPHONIUM_C(Euphonium(), LowBrassClef(), Interval(0)),
+    TUBA_B_FLAT(BFlatTuba(), TrebleClef(), Interval(26)),
+    TUBA_C(BFlatTuba(), LowBrassClef(), Interval(0)),
     HORN_F(DoubleHorn(), HornClef(), Interval(7))
 }
 

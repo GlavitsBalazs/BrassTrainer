@@ -1,5 +1,8 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="buttonStyle">@android:style/Widget.Button</item>
+        <item name="spinnerStyle">@android:style/Widget.Spinner.DropDown</item>
+    </style>
 
 </resources>

@@ -29,7 +29,7 @@ abstract class BrassInstrument {
 
     companion object {
         /**
-         * https://en.wikipedia.org/wiki/Harmonic_series
+         * https://en.wikipedia.org/wiki/Harmonic_series AKA overtone series.
          * This is a physical property of all brass (and many other kinds of) instruments.
          * The values of the list represent the partials in increasing order, with each item
          * being by the number of semitones between its frequency and the fundamental.

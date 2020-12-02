@@ -20,6 +20,7 @@ object ResourcesHelper {
                 InstrumentSelection.TRUMPET_B_FLAT -> R.string.trumpet_in_b_flat
                 InstrumentSelection.TRUMPET_C -> R.string.trumpet_in_c
                 InstrumentSelection.EUPHONIUM_B_FLAT -> R.string.euphonium_in_b_flat
+                InstrumentSelection.BARITONE_B_FLAT -> R.string.baritone_horn_in_b_flat
                 InstrumentSelection.EUPHONIUM_C -> R.string.euphonium_in_c
                 InstrumentSelection.TUBA_B_FLAT -> R.string.tuba_in_b_flat
                 InstrumentSelection.TUBA_C -> R.string.tuba_in_c
